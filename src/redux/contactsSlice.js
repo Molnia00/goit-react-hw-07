@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSelector, createSlice } from "@reduxjs/toolkit";
 import { addThunk, contactThunk, deleteThunk } from "./contactsOps";
 
 const initialState = {
@@ -38,10 +38,21 @@ const slice = createSlice({
         
     }
 })
-    
+
+const selectContactsState = (state) => state.contacts;
+
+
 
 export const contactsReducers = slice.reducer;
 export const { addContacts, errorThing, lodingThing, deleteContacts } = slice.actions;
-export const contSelect = state => state.contacts.items;
-export const selectLoading = state => state.contacts.isLoading ;
-export const selectRejected = state => state.contacts.isError ;
+export const contSelect = createSelector(
+    [selectContactsState],
+    (contacts) => contacts.items
+);
+export const selectLoading = createSelector(
+    [selectContactsState],
+    (contacts) => contacts.isLoading);
+    
+export const selectRejected = createSelector(
+    [selectContactsState],
+    (contacts) => contacts.isError);
