@@ -2,7 +2,7 @@ import { HiUser } from 'react-icons/hi';
 import { BsFillTelephoneFill } from 'react-icons/bs';
 import s from './contact.module.css'
 import { useDispatch } from "react-redux";
- import { deleteThunk } from '../redux/operation';
+ import { deleteThunk } from '../redux/contactsOps';
 
 
 function Contact({ id, name, number }) {

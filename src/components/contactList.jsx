@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { contSelect, selectLoading, selectRejected } from '../redux/contactsSlice';
 import { contFilter } from '../redux/filtersSlice';
 import { useEffect } from 'react';
-import { contactThunk } from '../redux/operation';
+import { contactThunk } from '../redux/contactsOps';
 
 
 function ContactList() {
