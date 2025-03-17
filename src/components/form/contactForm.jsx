@@ -1,11 +1,10 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useId } from 'react';
 import * as Yup from 'yup';
-import { nanoid } from 'nanoid/non-secure';
 import s from './IAmSoLazy.module.css'
 
 import { useDispatch } from "react-redux";
-import {  addContacts } from '../../redux/contactsSlice';
+import { addThunk } from '../../redux/operation';
 
 const FeedbackSchema = Yup.object().shape({
   name: Yup.string().min(3, "Too Short!").max(50, "Too Long!").required("Required"),
@@ -35,12 +34,11 @@ function ContactForm() {
 
   const handleSubmit = (values, actions) => {
     const newContact = {
-      id: nanoid(),
       name: values.name,
       number: values.number,
     };
 
-    dispatch(addContacts(newContact));
+    dispatch(addThunk(newContact));
     actions.resetForm();
   };
 

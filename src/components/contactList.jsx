@@ -1,15 +1,24 @@
 import Contact from './contacts';
 import s from './contact.module.css'
-import { useSelector } from "react-redux";
-import { contSelect } from '../redux/contactsSlice';
+import { useDispatch, useSelector } from "react-redux";
+import { contSelect, selectLoading, selectRejected } from '../redux/contactsSlice';
 import { contFilter } from '../redux/filtersSlice';
+import { useEffect } from 'react';
+import { contactThunk } from '../redux/operation';
 
 
 function ContactList() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(contactThunk());
+  }, [dispatch])
+
   const contacts = useSelector(contSelect);
   const filter = useSelector(contFilter)
   const filteredData = contacts.filter(contact => contact.name.includes(filter))
-    return (
+  const isLoading = useSelector(selectLoading);
+  const isError = useSelector(selectRejected);
+  return (
     <div className={s.listOfContacts}>
       {filteredData.map((item) => (
         <Contact
@@ -19,6 +28,8 @@ function ContactList() {
           number={item.number}
         />
       ))}
+      {isLoading && <h2>Loading...</h2>}
+      {isError && <h2>Something went wrong, try again</h2>}
     </div>
   );
 }
