@@ -1,8 +1,7 @@
 import Contact from './contacts';
 import s from './contact.module.css'
 import { useDispatch, useSelector } from "react-redux";
-import { contSelect, selectLoading, selectRejected } from '../redux/contactsSlice';
-import { contFilter } from '../redux/filtersSlice';
+import { contSelect, selectFilter, selectLoading, selectRejected } from '../redux/contactsSlice';
 import { useEffect } from 'react';
 import { contactThunk } from '../redux/contactsOps';
 
@@ -14,7 +13,7 @@ function ContactList() {
   }, [dispatch])
 
   const contacts = useSelector(contSelect);
-  const filter = useSelector(contFilter)
+  const filter = useSelector(selectFilter)
   const filteredData = contacts.filter(contact => contact.name.includes(filter))
   const isLoading = useSelector(selectLoading);
   const isError = useSelector(selectRejected);
