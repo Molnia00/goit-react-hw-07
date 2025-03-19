@@ -1,7 +1,9 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
-import { addThunk, contactThunk, deleteThunk, filterThunk } from "./contactsOps";
+import { addThunk, contactThunk, deleteThunk } from "./contactsOps";
+import { contFilter } from "./filtersSlice";
 
 const initialState = {
+    
     items: [],
 	isLoading: false,
     isError: null,
@@ -19,12 +21,12 @@ const slice = createSlice({
             state.items = action.payload;
             state.isLoading = false;
         })
-            .addCase(contactThunk.rejected, (state, action) => {
+            .addCase(contactThunk.rejected, (state) => {
                 state.isError = true;
                 state.isLoading = false;
             })
             
-        .addCase(contactThunk.pending, (state, action) => {
+        .addCase(contactThunk.pending, (state ) => {
                 state.isLoading = true;
                 state.isError = false;
                               
@@ -36,10 +38,7 @@ const slice = createSlice({
             .addCase(addThunk.fulfilled, (state, action) => {
             state.items.push(action.payload)
             })
-        .addCase(filterThunk.fulfilled, (state, action) => {
-            state.filter = action.payload;
-            state.isLoading = false;
-        })
+        
         
     }
 })
@@ -51,14 +50,15 @@ const selectContactsState = (state) => state.contacts;
 export const contactsReducers = slice.reducer;
 export const { addContacts, errorThing, lodingThing, deleteContacts } = slice.actions;
 
-export const selectFilter = createSelector(
-    [selectContactsState],
-    (contacts) => contacts.filter
-);
 
 export const contSelect = createSelector(
-    [selectContactsState],
-    (contacts) => contacts.items
+  [selectContactsState, contFilter],
+  (contacts, filter) => {
+    if (contacts && contacts.items) {
+      return contacts.items.filter(contact => contact.name.includes(filter));
+    }
+      return [];
+  }
 );
     
 export const selectLoading = createSelector(
