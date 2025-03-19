@@ -44,15 +44,3 @@ export const addThunk = createAsyncThunk('contacts/addItems',
     }
 )   
 
-export const filterThunk = createAsyncThunk('contacts/filterItems',
-    async (name, thunkAPI) => {
-        try {
-        const { data } = await axios.get(`/contacts/${name}`);
-            return data;
-            
-    }
-    catch (error) {
-        return thunkAPI.rejectWithValue(error.message)
-    }
-    }
-) 
