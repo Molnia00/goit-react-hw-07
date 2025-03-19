@@ -1,5 +1,5 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
-import { addThunk, contactThunk, deleteThunk } from "./contactsOps";
+import { addContact, fetchContacts, deleteContact } from "./contactsOps";
 import { contFilter } from "./filtersSlice";
 
 const initialState = {
@@ -17,25 +17,25 @@ const slice = createSlice({
         
     },
     extraReducers: (builder) => {
-        builder.addCase(contactThunk.fulfilled, (state, action) => {
+        builder.addCase(fetchContacts.fulfilled, (state, action) => {
             state.items = action.payload;
             state.isLoading = false;
         })
-            .addCase(contactThunk.rejected, (state) => {
+            .addCase(fetchContacts.rejected, (state) => {
                 state.isError = true;
                 state.isLoading = false;
             })
             
-        .addCase(contactThunk.pending, (state ) => {
+        .addCase(fetchContacts.pending, (state ) => {
                 state.isLoading = true;
                 state.isError = false;
                               
         })
-            .addCase(deleteThunk.fulfilled, (state, action) => {
+            .addCase(deleteContact.fulfilled, (state, action) => {
             state.items = state.items.filter(item => item.id !== action.payload.id )
 
             })
-            .addCase(addThunk.fulfilled, (state, action) => {
+            .addCase(addContact.fulfilled, (state, action) => {
             state.items.push(action.payload)
             })
         
